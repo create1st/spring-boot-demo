@@ -1,0 +1,16 @@
+{
+  "validationErrors": [
+    {
+      "propertyValidationErrors": [
+        "expectedDate has to be a non-weekend day"
+      ],
+      "target": {
+        "sourceSystem": "SYSTEM_01",
+        "ticketDate": "2016-08-11",
+        "expectedDate": "2016-08-14",
+        "price": 100,
+        "currency": "EUR"
+      }
+    }
+  ]
+}

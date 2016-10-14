@@ -1,0 +1,17 @@
+{
+  "validationErrors": [
+    {
+      "propertyValidationErrors": [
+        "externalSource may not be null when ticketType is [EXTERNAL]"
+      ],
+      "target": {
+        "sourceSystem": "SYSTEM_01",
+        "ticketDate": "2016-08-11",
+        "expiryDate": "2016-08-19",
+        "price": 100,
+        "currency": "EUR",
+        "ticketType": "EXTERNAL"
+      }
+    }
+  ]
+}

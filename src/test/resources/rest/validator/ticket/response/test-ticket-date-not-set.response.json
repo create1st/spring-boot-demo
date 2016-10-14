@@ -1,0 +1,14 @@
+{
+  "validationErrors": [
+    {
+      "propertyValidationErrors": [
+        "ticketDate may not be null"
+      ],
+      "target": {
+        "sourceSystem": "SYSTEM_01",
+        "price": 100,
+        "currency": "EUR"
+      }
+    }
+  ]
+}

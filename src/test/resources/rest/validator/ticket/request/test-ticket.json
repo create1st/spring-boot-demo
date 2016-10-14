@@ -1,0 +1,10 @@
+{
+  "sourceSystem": "SYSTEM_01",
+  "currency": "EUR",
+  "ticketDate": "2016-08-11",
+  "expectedDate": "2016-08-12",
+  "expiryDate": "2016-08-13",
+  "ticketType": "EXTERNAL",
+  "price": 100.00,
+  "externalSource": "World"
+}

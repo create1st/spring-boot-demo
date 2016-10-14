@@ -1,0 +1,27 @@
+info:
+  build:
+    artifact: "@project.artifactId@"
+    name: "@project.name@"
+    description: "@project.description@"
+    version: "@project.version@"
+server:
+  port: 8080
+management:
+  port: 8080
+  address: 127.0.0.1
+  context-path: /manage
+validator:
+  context-path: /validator
+spring:
+  jackson:
+    serialization-inclusion: non_null
+swagger:
+  api:
+    info:
+      title: "Spring-validator DEMO API"
+      description: "Validate REST requests"
+      termsOfServiceUrl: "https://github.com/create1st/spring-validation"
+      contact: "Sebastian Gil"
+      license: "Apache License Version 2.0"
+      licenseUrl: "https://github.com/create1st/spring-validation/blob/master/LICENSE"
+      version: "2.0"

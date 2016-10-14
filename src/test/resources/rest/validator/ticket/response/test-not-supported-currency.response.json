@@ -1,0 +1,16 @@
+{
+  "validationErrors": [
+    {
+      "propertyValidationErrors": [
+        "currency has to be valid ISO currency code (ISO 4217)"
+      ],
+      "target": {
+        "sourceSystem": "SYSTEM_01",
+        "ticketDate": "2016-08-11",
+        "expectedDate": "2016-08-15",
+        "price": 100,
+        "currency": "EUD"
+      }
+    }
+  ]
+}

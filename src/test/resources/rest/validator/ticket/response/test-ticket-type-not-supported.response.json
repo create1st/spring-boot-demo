@@ -1,0 +1,16 @@
+{
+  "validationErrors": [
+    {
+      "propertyValidationErrors": [
+        "ticketType value may not be other than [INTERNAL, EXTERNAL]"
+      ],
+      "target": {
+        "sourceSystem": "SYSTEM_01",
+        "ticketDate": "2016-08-11",
+        "price": 100,
+        "currency": "EUR",
+        "ticketType": "UNKNOWN"
+      }
+    }
+  ]
+}

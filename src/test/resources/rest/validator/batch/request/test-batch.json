@@ -1,0 +1,19 @@
+[
+  {
+    "sourceSystem": "SYSTEM_01",
+    "ticketType": "EXTERNAL",
+    "ticketDate": "2016-08-11",
+    "price": 100.00,
+    "expiryDate": "2016-08-19",
+    "externalSource": "Word",
+    "currency": "USD"
+  },
+  {
+    "sourceSystem": "SYSTEM_01",
+    "ticketType": "EXTERNAL",
+    "ticketDate": "2016-08-11",
+    "price": 100.00,
+    "externalSource": "Word",
+    "currency": "USD"
+  }
+]

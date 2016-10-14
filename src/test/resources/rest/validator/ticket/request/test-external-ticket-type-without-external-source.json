@@ -1,0 +1,8 @@
+{
+  "sourceSystem": "SYSTEM_01",
+  "currency": "EUR",
+  "ticketType": "EXTERNAL",
+  "ticketDate": "2016-08-11",
+  "price": 100.00,
+  "expiryDate": "2016-08-19"
+}

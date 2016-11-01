@@ -35,15 +35,15 @@ public class ValidationErrorsProvider {
         this.propertyValidationErrorsProvider = new PropertyValidationErrorsProvider(objectErrors);
     }
 
-    public List<ValidationError> getValidationErrors() {
+    public List<ValidationError<?>> getValidationErrors() {
         return IntStream.range(0, targets.size())
                 .boxed()
-                .map(index -> getValidationError(index))
+                .map(this::getValidationError)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-    private ValidationError getValidationError(int index) {
+    private ValidationError<?> getValidationError(int index) {
         final Object target = targets.get(index);
         final String nestedPath = nestedPathConverter.getNestedPath(index);
         final List<String> propertyValidationErrors = propertyValidationErrorsProvider
@@ -53,8 +53,8 @@ public class ValidationErrorsProvider {
                 : getValidationError(target, propertyValidationErrors);
     }
 
-    private ValidationError getValidationError(Object target,
-                                               List<String> propertyValidationErrors) {
+    private ValidationError<?> getValidationError(Object target,
+                                                  List<String> propertyValidationErrors) {
         return ValidationErrorBuilder
                 .aValidationError()
                 .withTarget(target)

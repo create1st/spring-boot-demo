@@ -16,6 +16,8 @@
 
 package com.create.model;
 
+import com.create.databind.MoneyDeserializer;
+import com.create.databind.MoneySerializer;
 import com.create.validation.AfterDate;
 import com.create.validation.Choice;
 import com.create.validation.Currency;
@@ -27,6 +29,8 @@ import com.create.validation.RequiredOnPropertyValue;
 import com.create.validation.RequiredOnPropertyValues;
 import com.create.validation.SupportedSourceSystem;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
@@ -75,6 +79,8 @@ public class Ticket implements Serializable {
     private LocalDate expiryDate;
     @ApiModelProperty(example = PRICE_EXAMPLE)
     @NotNull
+    @JsonDeserialize(using = MoneyDeserializer.class)
+    @JsonSerialize(using = MoneySerializer.class)
     private BigDecimal price;
     @ApiModelProperty(example = CCY_EXAMPLE)
     @Currency

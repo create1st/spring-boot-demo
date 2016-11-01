@@ -19,29 +19,29 @@ package com.create.validation;
 import java.util.Collections;
 import java.util.List;
 
-public final class ValidationErrorBuilder {
+public final class ValidationErrorBuilder<T> {
     private List<String> propertyValidationErrors = Collections.emptyList();
-    private Object target;
+    private T target;
 
     private ValidationErrorBuilder() {
     }
 
-    public static ValidationErrorBuilder aValidationError() {
-        return new ValidationErrorBuilder();
+    public static <T> ValidationErrorBuilder<T> aValidationError() {
+        return new ValidationErrorBuilder<>();
     }
 
-    public ValidationErrorBuilder withPropertyValidationErrors(List<String> propertyValidationErrors) {
+    public ValidationErrorBuilder<T> withPropertyValidationErrors(List<String> propertyValidationErrors) {
         this.propertyValidationErrors = propertyValidationErrors;
         return this;
     }
 
-    public ValidationErrorBuilder withTarget(Object target) {
+    public ValidationErrorBuilder<T> withTarget(T target) {
         this.target = target;
         return this;
     }
 
-    public ValidationError build() {
-        ValidationError validationError = new ValidationError();
+    public ValidationError<T> build() {
+        ValidationError<T> validationError = new ValidationError<>();
         validationError.setPropertyValidationErrors(propertyValidationErrors);
         validationError.setTarget(target);
         return validationError;

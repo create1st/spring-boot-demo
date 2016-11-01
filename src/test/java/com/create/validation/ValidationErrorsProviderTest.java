@@ -25,10 +25,10 @@ public class ValidationErrorsProviderTest {
 
         // when
         final ValidationErrorsProvider validationErrorsProvider = new ValidationErrorsProvider(targets, objectErrors);
-        final List<ValidationError> validationErrors = validationErrorsProvider.getValidationErrors();
+        final List<ValidationError<?>> validationErrors = validationErrorsProvider.getValidationErrors();
 
         // then
-        final List<ValidationError> expectedValidationErrors = getExpectedValidationErrors();
+        final List<ValidationError<?>> expectedValidationErrors = getExpectedValidationErrors();
         assertThat(validationErrors, is(expectedValidationErrors));
     }
 
@@ -45,12 +45,12 @@ public class ValidationErrorsProviderTest {
         return new ObjectError(OBJECT_NAME, ERROR_MESSAGE);
     }
 
-    private List<ValidationError> getExpectedValidationErrors() {
+    private List<ValidationError<?>> getExpectedValidationErrors() {
         final ValidationError expectedValidationError = getExpectedValidationError();
         return Collections.singletonList(expectedValidationError);
     }
 
-    private ValidationError getExpectedValidationError() {
+    private ValidationError<?> getExpectedValidationError() {
         final List<String> expectedPropertyValidationErrors = getExpectedPropertyValidationErrors();
         return ValidationErrorBuilder
                 .aValidationError()

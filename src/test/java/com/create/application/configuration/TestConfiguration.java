@@ -17,19 +17,9 @@
 package com.create.application.configuration;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
 @EnableAutoConfiguration
 public class TestConfiguration {
-    @Bean
-    public MockMvc mvc(WebApplicationContext context) {
-        return MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 }

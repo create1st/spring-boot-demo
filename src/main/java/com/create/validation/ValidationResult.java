@@ -21,15 +21,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class ValidationResult {
+public class ValidationResult<T> {
 
-    private List<ValidationError> validationErrors = Collections.emptyList();
+    private List<ValidationError<T>> validationErrors = Collections.emptyList();
 
-    public List<ValidationError> getValidationErrors() {
+    public List<ValidationError<T>> getValidationErrors() {
         return Collections.unmodifiableList(validationErrors);
     }
 
-    public void setValidationErrors(List<ValidationError> validationErrors) {
+    public void setValidationErrors(List<ValidationError<T>> validationErrors) {
         this.validationErrors = new ArrayList<>(validationErrors);
     }
 

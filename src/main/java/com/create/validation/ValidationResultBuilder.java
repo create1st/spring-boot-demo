@@ -19,23 +19,23 @@ package com.create.validation;
 import java.util.Collections;
 import java.util.List;
 
-public final class ValidationResultBuilder {
-    private List<ValidationError> validationErrors = Collections.emptyList();
+public final class ValidationResultBuilder<T> {
+    private List<ValidationError<T>> validationErrors = Collections.emptyList();
 
     private ValidationResultBuilder() {
     }
 
-    public static ValidationResultBuilder aValidationResult() {
-        return new ValidationResultBuilder();
+    public static<T> ValidationResultBuilder aValidationResult() {
+        return new ValidationResultBuilder<>();
     }
 
-    public ValidationResultBuilder withValidationErrors(List<ValidationError> validationErrors) {
+    public ValidationResultBuilder<T> withValidationErrors(List<ValidationError<T>> validationErrors) {
         this.validationErrors = validationErrors;
         return this;
     }
 
-    public ValidationResult build() {
-        ValidationResult validationResult = new ValidationResult();
+    public ValidationResult<T> build() {
+        ValidationResult<T> validationResult = new ValidationResult<>();
         validationResult.setValidationErrors(validationErrors);
         return validationResult;
     }

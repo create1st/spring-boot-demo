@@ -23,10 +23,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class ValidationError {
+public class ValidationError<T> {
     private List<String> propertyValidationErrors = Collections.emptyList();
     @ApiModelProperty(example = "Input data type")
-    private Object target;
+    private T target;
 
     public void setPropertyValidationErrors(List<String> propertyValidationErrors) {
         this.propertyValidationErrors = new ArrayList<>(propertyValidationErrors);
@@ -36,11 +36,11 @@ public class ValidationError {
         return Collections.unmodifiableList(propertyValidationErrors);
     }
 
-    public Object getTarget() {
+    public T getTarget() {
         return target;
     }
 
-    public void setTarget(Object target) {
+    public void setTarget(T target) {
         this.target = target;
     }
 

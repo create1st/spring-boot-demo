@@ -37,7 +37,7 @@ public class BeanValidatorErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ValidationResult processValidationErrors(MethodArgumentNotValidException exception) {
+    public ValidationResult<?> processValidationErrors(MethodArgumentNotValidException exception) {
         final BindingResult result = exception.getBindingResult();
         final List<ObjectError> fieldErrors = result.getAllErrors();
         final List<?> targets = getTargets(result);
@@ -51,11 +51,12 @@ public class BeanValidatorErrorHandler {
                 : Collections.singletonList(target);
     }
 
-    private ValidationResult processValidationErrors(List<?> targets,
-                                                     List<ObjectError> objectErrors) {
+    @SuppressWarnings("unchecked")
+    private ValidationResult<?> processValidationErrors(List<?> targets,
+                                                        List<ObjectError> objectErrors) {
         final ValidationErrorsProvider validationErrorsProvider = new ValidationErrorsProvider(targets,
                 objectErrors);
-        final List<ValidationError> validationErrors = validationErrorsProvider.getValidationErrors();
+        final List<ValidationError<?>> validationErrors = validationErrorsProvider.getValidationErrors();
         return ValidationResultBuilder
                 .aValidationResult()
                 .withValidationErrors(validationErrors)

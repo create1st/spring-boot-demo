@@ -20,6 +20,8 @@ import com.create.application.configuration.ServiceConfiguration;
 import com.create.application.configuration.TestConfiguration;
 import com.create.application.configuration.ValidatorConfiguration;
 import com.create.application.configuration.WebConfiguration;
+import com.create.model.Ticket;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -28,8 +30,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.TestContextManager;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 
@@ -41,10 +43,12 @@ import java.io.IOException;
         ServiceConfiguration.class}
 )
 public class BatchTicketValidatorTest {
-    private static final String VALIDATOR_TRADE_URL = "/validator/batch";
+    private static final String VALIDATOR_TICKET_URL = "/validator/batch";
 
     @Autowired
-    private MockMvc mvc;
+    private TestRestTemplate restTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Before
     public void before() throws Exception {
@@ -54,12 +58,13 @@ public class BatchTicketValidatorTest {
     @DataPoints
     public static String[] getTestNames() throws IOException {
         return new RestTestNameProvider()
-                .getTestNames(VALIDATOR_TRADE_URL);
+                .getTestNames(VALIDATOR_TICKET_URL);
     }
 
     @Theory
     public void shouldTestBatchTicketValidatorRequest(String testName) throws Exception {
-        final RestTestExecutor restTestExecutor = new RestTestExecutor(mvc);
-        restTestExecutor.executeTestRestRequest(VALIDATOR_TRADE_URL, testName);
+        final ValidationResultRestTestExecutor validationResultRestTestExecutor = new ValidationResultRestTestExecutor(
+                restTemplate, objectMapper);
+        validationResultRestTestExecutor.executeListTestRestRequest(VALIDATOR_TICKET_URL, testName, Ticket.class);
     }
 }

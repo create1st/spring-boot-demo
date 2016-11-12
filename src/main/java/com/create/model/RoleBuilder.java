@@ -14,22 +14,33 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.model;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+public final class RoleBuilder {
+    private int id;
+    private String name;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+    private RoleBuilder() {
+    }
+
+    public static RoleBuilder aRole() {
+        return new RoleBuilder();
+    }
+
+    public RoleBuilder withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public RoleBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Role build() {
+        Role role = new Role();
+        role.setId(id);
+        role.setName(name);
+        return role;
+    }
 }

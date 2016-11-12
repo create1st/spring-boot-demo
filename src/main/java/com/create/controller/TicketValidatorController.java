@@ -17,11 +17,14 @@
 package com.create.controller;
 
 import com.create.model.Ticket;
+import com.create.model.User;
 import com.create.validation.ValidationResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,10 +40,12 @@ import static com.create.controller.ResponseMessage.FORBIDDEN_RESPONSE;
 import static com.create.controller.ResponseMessage.NOT_FOUND_RESPONSE;
 import static com.create.controller.ResponseMessage.SUCCESS_RESPONSE;
 import static com.create.controller.ResponseMessage.UNAUTHORIZED_RESPONSE;
+import static com.create.security.AccessControl.HAS_TICKET_SERVICE_USER_AUTHORITY;
 
 @RestController
 @RequestMapping("${validator.context-path:}")
 @Api(description = "Endpoint for ticket validation")
+@PreAuthorize(HAS_TICKET_SERVICE_USER_AUTHORITY)
 public class TicketValidatorController {
 
     @ApiOperation(value = "Validate ticket", notes = "Validate ticket using this REST API")
@@ -53,7 +58,8 @@ public class TicketValidatorController {
             @ApiResponse(code = 404, message = NOT_FOUND_RESPONSE),
             @ApiResponse(code = 500, message = FAILURE_RESPONSE)})
     @ResponseBody
-    public void validateTicket(@Valid @RequestBody Ticket ticket) {
+    public void validateTicket(@Valid @RequestBody Ticket ticket,
+                               @AuthenticationPrincipal User user) {
     }
 
     @ApiOperation(value = "Validate tickets in batch", notes = "Validate tickets in batch using this REST API")
@@ -66,6 +72,7 @@ public class TicketValidatorController {
             @ApiResponse(code = 404, message = NOT_FOUND_RESPONSE),
             @ApiResponse(code = 500, message = FAILURE_RESPONSE)})
     @ResponseBody
-    public void validateTickets(@Valid @RequestBody List<Ticket> tickets) {
+    public void validateTickets(@Valid @RequestBody List<Ticket> tickets,
+                                @AuthenticationPrincipal User user) {
     }
 }

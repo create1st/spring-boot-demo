@@ -25,7 +25,7 @@ import static org.hamcrest.core.Is.is;
 
 public class SourceSystemServiceTest {
     private static final String VALID_COUNTER_PARTY = "VALID_COUNTER_PARTY";
-    private SourceSystemService sourceSystemService = new SourceSystemService(
+    private SourceSystemServiceImpl sourceSystemService = new SourceSystemServiceImpl(
             Collections.singletonList(VALID_COUNTER_PARTY));
 
     @Test

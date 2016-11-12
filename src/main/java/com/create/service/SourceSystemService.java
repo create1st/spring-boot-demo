@@ -16,16 +16,5 @@
 
 package com.create.service;
 
-import java.util.List;
-
-public class SourceSystemService {
-    private List<String> sourceSystems;
-
-    public SourceSystemService(List<String> sourceSystems) {
-        this.sourceSystems = sourceSystems;
-    }
-
-    public boolean isValidSourceSystem(String sourceSystem) {
-        return sourceSystems.contains(sourceSystem);
-    }
+public interface SourceSystemService {
 }

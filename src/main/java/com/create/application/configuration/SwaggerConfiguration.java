@@ -58,7 +58,7 @@ public class SwaggerConfiguration {
     }
 
     private Predicate<String> validatorContextPath() {
-        return ant(getAntPattern(validatorContextPath));
+        return ant(getWildcardMappings(validatorContextPath));
     }
 
     @Bean
@@ -93,10 +93,10 @@ public class SwaggerConfiguration {
     }
 
     private Predicate<String> actuatorPaths() {
-        return ant(getAntPattern(actuatorContextPath));
+        return ant(getWildcardMappings(actuatorContextPath));
     }
 
-    private String getAntPattern(String path) {
+    private String getWildcardMappings(String path) {
         return String.format("%s/**", path);
     }
 }

@@ -14,22 +14,18 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.service;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import java.util.List;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+public class SourceSystemServiceImpl implements SourceSystemService {
+    private List<String> sourceSystems;
+
+    public SourceSystemServiceImpl(List<String> sourceSystems) {
+        this.sourceSystems = sourceSystems;
+    }
+
+    public boolean isValidSourceSystem(String sourceSystem) {
+        return sourceSystems.contains(sourceSystem);
+    }
 }

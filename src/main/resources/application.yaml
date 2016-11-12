@@ -15,6 +15,33 @@ validator:
 spring:
   jackson:
     serialization-inclusion: non_null
+  datasource:
+    url: jdbc:h2:file:~/ticketdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties.javax.persistence:
+      sharedCache.mode: NONE
+    hibernate:
+      ddl-auto: create-drop
+security:
+  oauth2:
+    client:
+      # org.springframework.security.oauth2.provider.client.BaseClientDetails
+      client-id: client
+      client-secret: secret
+      scope: read, write
+#      authorities: ADMIN_USER, TICKET_SERVICE_USER
+      authorized_grant_types: authorization_code, refresh_token, password
+      accessTokenValiditySeconds: 1800
+      auto-approve-scopes: '.*'
 swagger:
   api:
     info:

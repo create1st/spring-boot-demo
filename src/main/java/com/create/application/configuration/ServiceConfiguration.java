@@ -17,6 +17,7 @@
 package com.create.application.configuration;
 
 import com.create.service.SourceSystemService;
+import com.create.service.SourceSystemServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +39,7 @@ public class ServiceConfiguration {
     public SourceSystemService counterPartyProvider(
             @Value("classpath:source-systems.json")Resource sourceSystemsResource) throws IOException {
         final List<String> sourceSystems = getAsStrings(sourceSystemsResource);
-        return new SourceSystemService(sourceSystems);
+        return new SourceSystemServiceImpl(sourceSystems);
     }
 
     private List<String> getAsStrings(Resource resource) throws IOException {

@@ -14,22 +14,10 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.security;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import static com.create.security.Authority.TICKET_SERVICE_USER;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+public interface AccessControl {
+    String HAS_TICKET_SERVICE_USER_AUTHORITY = "hasAuthority('" + TICKET_SERVICE_USER + "')";
 }

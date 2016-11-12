@@ -14,22 +14,12 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.application.configuration.security;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
+@Configuration
+public class GlobalMethodSecurityConfiguration {
 }

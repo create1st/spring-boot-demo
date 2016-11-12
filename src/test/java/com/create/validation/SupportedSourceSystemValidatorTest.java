@@ -17,7 +17,7 @@
 package com.create.validation;
 
 import com.create.application.configuration.ValidatorConfiguration;
-import com.create.service.SourceSystemService;
+import com.create.service.SourceSystemServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class SupportedSourceSystemValidatorTest {
     private static final String VALID_SOURCE_SYSTEM = "VALID_SOURCE_SYSTEM";
 
     @MockBean
-    private SourceSystemService sourceSystemService;
+    private SourceSystemServiceImpl sourceSystemService;
 
     @Autowired
     private LocalValidatorFactoryBean localValidatorFactoryBean;

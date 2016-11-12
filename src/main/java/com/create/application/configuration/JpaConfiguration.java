@@ -16,20 +16,16 @@
 
 package com.create.application.configuration;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
+@Configuration
+@EnableJpaRepositories({
+        "com.create.repository"
 })
-@EnableAutoConfiguration
-public class AppConfiguration {
+@EntityScan(basePackages = {
+        "com.create.model"
+})
+public class JpaConfiguration {
 }

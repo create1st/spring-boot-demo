@@ -14,22 +14,17 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.controller;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+@RestController
+public class AuthenticationController {
+    @PostMapping(value = "${auth.context-path:}")
+    public String authenticate() {
+        return null;
+    }
 }

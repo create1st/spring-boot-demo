@@ -16,7 +16,7 @@
 
 package com.create.validation;
 
-import com.create.service.SourceSystemService;
+import com.create.service.SourceSystemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -24,7 +24,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class SupportedSourceSystemValidator implements ConstraintValidator<SupportedSourceSystem, String> {
     @Autowired
-    private SourceSystemService sourceSystemService;
+    private SourceSystemServiceImpl sourceSystemService;
 
     @Override
     public void initialize(SupportedSourceSystem constraintAnnotation) {

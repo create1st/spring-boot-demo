@@ -14,22 +14,11 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.repository;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import com.create.model.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Import({
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+public interface RoleRepository extends JpaRepository<Role, String> {
+    Role findByName(String role);
 }

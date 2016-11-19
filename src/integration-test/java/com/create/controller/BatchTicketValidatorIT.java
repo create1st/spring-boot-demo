@@ -18,7 +18,6 @@ package com.create.controller;
 
 import com.create.application.configuration.ServiceConfiguration;
 import com.create.application.configuration.TestConfiguration;
-import com.create.application.configuration.TestControllerConfiguration;
 import com.create.application.configuration.ValidatorConfiguration;
 import com.create.application.configuration.WebConfiguration;
 import com.create.model.Ticket;
@@ -41,14 +40,12 @@ import java.io.IOException;
 @RunWith(Theories.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {
         TestConfiguration.class,
-        TestControllerConfiguration.class,
         ValidatorConfiguration.class,
         WebConfiguration.class,
-        ServiceConfiguration.class
-}
+        ServiceConfiguration.class}
 )
-public class SingleTicketValidatorTest {
-    private static final String VALIDATOR_TICKET_URL = "/validator/ticket";
+public class BatchTicketValidatorIT {
+    private static final String VALIDATOR_TICKET_URL = "/validator/batch";
 
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
@@ -61,17 +58,15 @@ public class SingleTicketValidatorTest {
     private ObjectMapper objectMapper;
 
     @DataPoints
-    public static String[] getTestNames() throws
-            IOException {
+    public static String[] getTestNames() throws IOException {
         return new RestTestNameProvider()
                 .getTestNames(VALIDATOR_TICKET_URL);
     }
 
     @Theory
-    public void shouldTestSingleTicketValidatorRequest(String testName) throws
-            Exception {
+    public void shouldTestBatchTicketValidatorRequest(String testName) throws Exception {
         final ValidationResultRestTestExecutor validationResultRestTestExecutor = new ValidationResultRestTestExecutor(
                 authenticatedUserTestRestTemplate, objectMapper);
-        validationResultRestTestExecutor.executeTestRestRequest(VALIDATOR_TICKET_URL, testName, Ticket.class);
+        validationResultRestTestExecutor.executeListTestRestRequest(VALIDATOR_TICKET_URL, testName, Ticket.class);
     }
 }

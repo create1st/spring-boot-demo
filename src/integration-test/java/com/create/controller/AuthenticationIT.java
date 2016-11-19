@@ -52,7 +52,7 @@ import static org.hamcrest.Matchers.notNullValue;
         TestControllerConfiguration.class
 })
 @RunWith(SpringRunner.class)
-public class AuthenticationTest {
+public class AuthenticationIT {
     @Value("${security.oauth2.client.client-id}")
     private String clientId;
     @Value("${security.oauth2.client.client-secret}")

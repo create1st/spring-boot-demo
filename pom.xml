@@ -25,7 +25,11 @@
 		<common.beanutils.version>1.9.3</common.beanutils.version>
 		<common.io.version>1.3.2</common.io.version>
 		<springfox.swagger.version>2.3.0</springfox.swagger.version>
+		<failsaife.maven.plugin.version>2.18</failsaife.maven.plugin.version>
 		<java.version>1.8</java.version>
+		<integration-test-src-path>src/integration-test/java</integration-test-src-path>
+		<integration-test-classes-path>${project.build.directory}/integration-test-classes</integration-test-classes-path>
+		<integration-test-resources-path>src/integration-test/resources</integration-test-resources-path>
 	</properties>
 
 	<dependencies>
@@ -109,6 +113,42 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<addResources>true</addResources>
+					<!--<classifier>exec</classifier>-->
+				</configuration>
+				<executions>
+					<execution>
+						<id>pre-integration-test</id>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-it-source</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${integration-test-src-path}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -119,6 +159,62 @@
 					</delimiters>
 					<useDefaultDelimiters>false</useDefaultDelimiters>
 				</configuration>
+				<executions>
+					<execution>
+						<id>add-it-resources</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${integration-test-classes-path}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+								</resource>
+								<resource>
+									<directory>${integration-test-resources-path}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile-integration-test</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<testIncludes>
+								<testInclude>**/*IT.java</testInclude>
+							</testIncludes>
+							<outputDirectory>${integration-test-classes-path}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${failsaife.maven.plugin.version}</version>
+				<configuration>
+					<testSourceDirectory>${integration-test-src-path}</testSourceDirectory>
+					<testClassesDirectory>${integration-test-classes-path}</testClassesDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<resources>

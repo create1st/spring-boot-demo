@@ -35,9 +35,9 @@ import java.util.stream.Stream;
 
 @Configuration
 public class Bootstrap {
-    private static final String PASSWORD = "secret";
+    public static final String USER_PASSWORD = "secret";
     private static final String ADMIN_USER = "admin";
-    private static final String TICKET_SERVICE_USER = "user";
+    public static final String TICKET_SERVICE_USER = "user";
 
     @Autowired
     private UserRepository userRepository;
@@ -76,7 +76,7 @@ public class Bootstrap {
     }
 
     private User createAdminUser() {
-        String password = passwordEncoder.encode(PASSWORD);
+        String password = passwordEncoder.encode(USER_PASSWORD);
         Role adminRole = getAdminRole();
         Set<Role> roles = Collections.singleton(adminRole);
         return UserBuilder
@@ -92,7 +92,7 @@ public class Bootstrap {
     }
 
     private User createTicketServiceUser() {
-        String password = passwordEncoder.encode(PASSWORD);
+        String password = passwordEncoder.encode(USER_PASSWORD);
         Role adminRole = getAdminRole();
         Role ticketServiceUserRole = getTicketServiceUserRole();
         Set<Role> roles = new HashSet<>(Arrays.asList(adminRole, ticketServiceUserRole));

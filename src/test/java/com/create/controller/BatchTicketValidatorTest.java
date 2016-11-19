@@ -22,7 +22,8 @@ import com.create.application.configuration.ValidatorConfiguration;
 import com.create.application.configuration.WebConfiguration;
 import com.create.model.Ticket;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -31,7 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
 import java.io.IOException;
 
@@ -45,15 +47,15 @@ import java.io.IOException;
 public class BatchTicketValidatorTest {
     private static final String VALIDATOR_TICKET_URL = "/validator/batch";
 
+    @ClassRule
+    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate authenticatedUserTestRestTemplate;
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Before
-    public void before() throws Exception {
-        new TestContextManager(getClass()).prepareTestInstance(this);
-    }
 
     @DataPoints
     public static String[] getTestNames() throws IOException {
@@ -64,7 +66,7 @@ public class BatchTicketValidatorTest {
     @Theory
     public void shouldTestBatchTicketValidatorRequest(String testName) throws Exception {
         final ValidationResultRestTestExecutor validationResultRestTestExecutor = new ValidationResultRestTestExecutor(
-                restTemplate, objectMapper);
+                authenticatedUserTestRestTemplate, objectMapper);
         validationResultRestTestExecutor.executeListTestRestRequest(VALIDATOR_TICKET_URL, testName, Ticket.class);
     }
 }

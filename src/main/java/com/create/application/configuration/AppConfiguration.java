@@ -17,8 +17,10 @@
 package com.create.application.configuration;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+@Configuration
 @Import({
         MonitoringConfig.class,
         H2Configuration.class,
@@ -26,6 +28,7 @@ import org.springframework.context.annotation.Import;
         SwaggerConfiguration.class,
         ValidatorConfiguration.class,
         WebConfiguration.class,
+        EndpointsConfiguration.class,
         OAuth2Configuration.class,
         ServiceConfiguration.class,
         Bootstrap.class

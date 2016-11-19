@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
@@ -33,13 +34,12 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-
     @Size(max = 20)
+    @NotNull
     private String username;
-
     @Size(max = 80)
+    @NotNull
     private String password;
-
     @ManyToMany(fetch = EAGER)
     @JoinTable(
             name = "user_role",

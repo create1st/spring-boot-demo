@@ -18,11 +18,13 @@ package com.create.controller;
 
 import com.create.application.configuration.ServiceConfiguration;
 import com.create.application.configuration.TestConfiguration;
+import com.create.application.configuration.TestControllerConfiguration;
 import com.create.application.configuration.ValidatorConfiguration;
 import com.create.application.configuration.WebConfiguration;
 import com.create.model.Ticket;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -31,40 +33,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
 import java.io.IOException;
 
 @RunWith(Theories.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {
         TestConfiguration.class,
+        TestControllerConfiguration.class,
         ValidatorConfiguration.class,
         WebConfiguration.class,
-        ServiceConfiguration.class}
+        ServiceConfiguration.class
+}
 )
 public class SingleTicketValidatorTest {
     private static final String VALIDATOR_TICKET_URL = "/validator/ticket";
 
+    @ClassRule
+    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate authenticatedUserTestRestTemplate;
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Before
-    public void before() throws Exception {
-        new TestContextManager(getClass()).prepareTestInstance(this);
-    }
-
     @DataPoints
-    public static String[] getTestNames() throws IOException {
+    public static String[] getTestNames() throws
+            IOException {
         return new RestTestNameProvider()
                 .getTestNames(VALIDATOR_TICKET_URL);
     }
 
     @Theory
-    public void shouldTestSingleTicketValidatorRequest(String testName) throws Exception {
+    public void shouldTestSingleTicketValidatorRequest(String testName) throws
+            Exception {
         final ValidationResultRestTestExecutor validationResultRestTestExecutor = new ValidationResultRestTestExecutor(
-                restTemplate, objectMapper);
+                authenticatedUserTestRestTemplate, objectMapper);
         validationResultRestTestExecutor.executeTestRestRequest(VALIDATOR_TICKET_URL, testName, Ticket.class);
     }
 }

@@ -115,7 +115,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>true</addResources>
-					<!--<classifier>exec</classifier>-->
 				</configuration>
 				<executions>
 					<execution>

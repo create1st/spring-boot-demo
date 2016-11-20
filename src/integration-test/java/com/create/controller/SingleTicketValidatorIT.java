@@ -26,10 +26,10 @@ import com.create.model.Ticket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.experimental.theories.DataPoints;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -42,7 +42,7 @@ import java.io.IOException;
 
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
-@RunWith(Theories.class)
+@RunWith(Parameterized.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {
         TestConfiguration.class,
         TestControllerConfiguration.class,
@@ -60,20 +60,26 @@ public class SingleTicketValidatorIT {
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    @Autowired
-    private TestRestTemplate authenticatedUserTestRestTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @DataPoints
+    @Parameters
     public static String[] getTestNames() throws
             IOException {
         return new RestTestNameProvider()
                 .getTestNames(VALIDATOR_TICKET_URL);
     }
 
-    @Theory
-    public void shouldTestSingleTicketValidatorRequest(String testName) throws
+
+    @Autowired
+    private TestRestTemplate authenticatedUserTestRestTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
+    private final String testName;
+
+    public SingleTicketValidatorIT(String testName) {
+        this.testName = testName;
+    }
+
+    @Test
+    public void shouldTestSingleTicketValidatorRequest() throws
             Exception {
         final ValidationResultRestTestExecutor validationResultRestTestExecutor = new ValidationResultRestTestExecutor(
                 authenticatedUserTestRestTemplate, objectMapper);

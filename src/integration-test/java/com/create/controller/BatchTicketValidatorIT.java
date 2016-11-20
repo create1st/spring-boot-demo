@@ -20,6 +20,7 @@ import com.create.application.configuration.ServiceConfiguration;
 import com.create.application.configuration.TestConfiguration;
 import com.create.application.configuration.ValidatorConfiguration;
 import com.create.application.configuration.WebConfiguration;
+import com.create.junit4.EmbeddedTomcatShutdown;
 import com.create.model.Ticket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.ClassRule;
@@ -32,10 +33,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
 import java.io.IOException;
+
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
 @RunWith(Theories.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {
@@ -44,6 +48,7 @@ import java.io.IOException;
         WebConfiguration.class,
         ServiceConfiguration.class}
 )
+@TestExecutionListeners(value = EmbeddedTomcatShutdown.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class BatchTicketValidatorIT {
     private static final String VALIDATOR_TICKET_URL = "/validator/batch";
 

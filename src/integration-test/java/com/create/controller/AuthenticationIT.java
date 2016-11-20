@@ -19,6 +19,7 @@ package com.create.controller;
 import com.create.application.configuration.ResourceOwnerPasswordResourceDetailsBuilder;
 import com.create.application.configuration.TestConfiguration;
 import com.create.application.configuration.TestControllerConfiguration;
+import com.create.junit4.EmbeddedTomcatShutdown;
 import com.create.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,7 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
@@ -46,12 +48,14 @@ import static com.create.application.configuration.TestControllerConfiguration.T
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {
         TestConfiguration.class,
         TestControllerConfiguration.class
 })
 @RunWith(SpringRunner.class)
+@TestExecutionListeners(value = EmbeddedTomcatShutdown.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class AuthenticationIT {
     @Value("${security.oauth2.client.client-id}")
     private String clientId;

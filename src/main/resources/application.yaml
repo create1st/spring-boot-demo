@@ -42,6 +42,10 @@ security:
       authorized_grant_types: authorization_code, refresh_token, password
       accessTokenValiditySeconds: 1800
       auto-approve-scopes: '.*'
+endpoints:
+  shutdown:
+    sensitive: false
+    enabled: true
 swagger:
   api:
     info:

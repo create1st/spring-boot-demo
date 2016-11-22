@@ -30,7 +30,7 @@ public class Role {
     private int id;
 
     @NotNull
-    @Size(max = 20)
+    @Size(max = 30)
     private String name;
 
     public int getId() {

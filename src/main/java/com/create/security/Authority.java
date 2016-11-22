@@ -16,7 +16,7 @@
 
 package com.create.security;
 
-public interface Authority {
-    String ADMIN_USER = "ADMIN_USER";
-    String TICKET_SERVICE_USER = "TICKET_SERVICE_USER";
+public enum Authority {
+    ROLE_ADMIN_USER,
+    ROLE_TICKET_SERVICE_USER;
 }

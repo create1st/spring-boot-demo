@@ -33,6 +33,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.create.security.Authority.ROLE_ADMIN_USER;
+import static com.create.security.Authority.ROLE_TICKET_SERVICE_USER;
+
 @Configuration
 public class Bootstrap {
     public static final String USER_PASSWORD = "secret";
@@ -54,16 +57,16 @@ public class Bootstrap {
 
     private void bootstrapRoleRepository() {
         Stream.of(
-                createRole(Authority.ADMIN_USER),
-                createRole(Authority.TICKET_SERVICE_USER)
+                createRole(ROLE_ADMIN_USER),
+                createRole(ROLE_TICKET_SERVICE_USER)
         )
                 .forEach(roleRepository::save);
     }
 
-    private Role createRole(String name) {
+    private Role createRole(Authority authority) {
         return RoleBuilder
                 .aRole()
-                .withName(name)
+                .withName(authority.name())
                 .build();
     }
 
@@ -88,7 +91,7 @@ public class Bootstrap {
     }
 
     private Role getAdminRole() {
-        return roleRepository.findByName(Authority.ADMIN_USER);
+        return roleRepository.findByName(ROLE_ADMIN_USER.name());
     }
 
     private User createTicketServiceUser() {
@@ -105,6 +108,6 @@ public class Bootstrap {
     }
 
     private Role getTicketServiceUserRole() {
-        return roleRepository.findByName(Authority.TICKET_SERVICE_USER);
+        return roleRepository.findByName(ROLE_TICKET_SERVICE_USER.name());
     }
 }

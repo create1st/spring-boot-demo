@@ -16,7 +16,6 @@
 
 package com.create.application.configuration.security;
 
-import com.create.security.Authority;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +27,9 @@ import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 
 import java.util.Collections;
 import java.util.List;
+
+import static com.create.security.Authority.ROLE_ADMIN_USER;
+import static com.create.security.Authority.ROLE_TICKET_SERVICE_USER;
 
 @Configuration
 @EnableAuthorizationServer
@@ -45,8 +47,8 @@ public class ClientConfiguration {
 
     private List<GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(
-                Authority.ADMIN_USER,
-                Authority.TICKET_SERVICE_USER
+                ROLE_ADMIN_USER.name(),
+                ROLE_TICKET_SERVICE_USER.name()
         );
     }
 }

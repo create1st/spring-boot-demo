@@ -34,11 +34,9 @@ spring:
 security:
   oauth2:
     client:
-      # org.springframework.security.oauth2.provider.client.BaseClientDetails
       client-id: client
       client-secret: secret
       scope: read, write
-#      authorities: ADMIN_USER, TICKET_SERVICE_USER
       authorized_grant_types: authorization_code, refresh_token, password
       accessTokenValiditySeconds: 1800
       auto-approve-scopes: '.*'

@@ -40,12 +40,12 @@ import static com.create.controller.ResponseMessage.FORBIDDEN_RESPONSE;
 import static com.create.controller.ResponseMessage.NOT_FOUND_RESPONSE;
 import static com.create.controller.ResponseMessage.SUCCESS_RESPONSE;
 import static com.create.controller.ResponseMessage.UNAUTHORIZED_RESPONSE;
-import static com.create.security.AccessControl.HAS_TICKET_SERVICE_USER_AUTHORITY;
+import static com.create.security.AccessControl.HAS_TICKET_SERVICE_USER_ROLE;
 
 @RestController
 @RequestMapping("${validator.context-path:}")
 @Api(description = "Endpoint for ticket validation")
-@PreAuthorize(HAS_TICKET_SERVICE_USER_AUTHORITY)
+@PreAuthorize(HAS_TICKET_SERVICE_USER_ROLE)
 public class TicketValidatorController {
 
     @ApiOperation(value = "Validate ticket", notes = "Validate ticket using this REST API")

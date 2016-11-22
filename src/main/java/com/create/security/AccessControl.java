@@ -16,8 +16,6 @@
 
 package com.create.security;
 
-import static com.create.security.Authority.TICKET_SERVICE_USER;
-
 public interface AccessControl {
-    String HAS_TICKET_SERVICE_USER_AUTHORITY = "hasAuthority('" + TICKET_SERVICE_USER + "')";
+    String HAS_TICKET_SERVICE_USER_ROLE = "hasRole('TICKET_SERVICE_USER')";
 }

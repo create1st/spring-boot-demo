@@ -14,20 +14,22 @@
  *
  */
 
-package com.create.application.configuration;
+package com.create.application.configuration.web;
 
-import com.create.application.configuration.web.LogbackContextListener;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import ch.qos.logback.classic.LoggerContext;
+import org.slf4j.LoggerFactory;
 
-@Configuration
-@ComponentScan({
-        "com.create.controller"
-})
-public class WebConfiguration {
-    @Bean
-    public LogbackContextListener logbackContextListener() {
-        return new LogbackContextListener();
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+public class LogbackContextListener implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        loggerContext.stop();
     }
 }

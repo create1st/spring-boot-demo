@@ -49,7 +49,7 @@ import static com.create.security.AccessControl.HAS_TICKET_SERVICE_USER_AUTHORIT
 public class TicketValidatorController {
 
     @ApiOperation(value = "Validate ticket", notes = "Validate ticket using this REST API")
-    @PostMapping("ticket")
+    @PostMapping("tickets")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = SUCCESS_RESPONSE),
             @ApiResponse(code = 400, message = BAD_REQUEST_RESPONSE, response = ValidationResult.class),
@@ -63,7 +63,7 @@ public class TicketValidatorController {
     }
 
     @ApiOperation(value = "Validate tickets in batch", notes = "Validate tickets in batch using this REST API")
-    @PostMapping("batch")
+    @PostMapping("tickets/batch")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = SUCCESS_RESPONSE),
             @ApiResponse(code = 400, message = BAD_REQUEST_RESPONSE, response = ValidationResult.class),

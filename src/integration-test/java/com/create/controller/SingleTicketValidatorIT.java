@@ -53,7 +53,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 )
 @TestExecutionListeners(value = EmbeddedTomcatShutdown.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class SingleTicketValidatorIT {
-    private static final String VALIDATOR_TICKET_URL = "/validator/ticket";
+    private static final String VALIDATOR_TICKET_URL = "/validator/tickets";
 
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();

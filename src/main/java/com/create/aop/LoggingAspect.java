@@ -24,8 +24,6 @@ import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 @Aspect
 public class LoggingAspect {
     private static final Logger LOG_ALL = LoggerFactory.getLogger("ALL");
@@ -62,9 +60,8 @@ public class LoggingAspect {
                        Logger logger) {
         final String className = getClassName(joinPoint.getTarget());
         final String methodName = getMethodName(joinPoint.getSignature());
-        final String arguments = getArguments(joinPoint.getArgs());
-        final String logMessage = String.format("%s - %s%s", className, methodName, arguments);
-        logger.debug(logMessage);
+        final Object[] arguments = joinPoint.getArgs();
+        logger.debug("{} - {}{}", className, methodName, arguments);
     }
 
     private String getClassName(Object target) {
@@ -73,10 +70,6 @@ public class LoggingAspect {
 
     private String getMethodName(Signature signature) {
         return signature.getName();
-    }
-
-    private String getArguments(Object[] args) {
-        return Arrays.toString(args);
     }
 
 }

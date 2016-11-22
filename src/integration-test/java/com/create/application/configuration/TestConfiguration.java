@@ -41,6 +41,7 @@ import static org.springframework.boot.test.web.client.TestRestTemplate.HttpClie
 
 @Configuration
 @Import({
+        AopConfiguration.class,
         JpaConfiguration.class,
         OAuth2Configuration.class,
         Bootstrap.class

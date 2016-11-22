@@ -35,7 +35,7 @@ public class TestControllerConfiguration {
     public static final String TEST_POST_VALIDATOR_PATH = "/test-post-validator";
 
     @RestController
-    private static class DummyController {
+    public static class DummyController {
 
         @GetMapping(TEST_GET_PATH)
         @ResponseBody

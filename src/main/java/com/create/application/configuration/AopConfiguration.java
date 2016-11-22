@@ -16,24 +16,17 @@
 
 package com.create.application.configuration;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import com.create.aop.LoggingAspect;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
-@Import({
-        AopConfiguration.class,
-        MonitoringConfig.class,
-        H2Configuration.class,
-        JpaConfiguration.class,
-        SwaggerConfiguration.class,
-        ValidatorConfiguration.class,
-        WebConfiguration.class,
-        EndpointsConfiguration.class,
-        OAuth2Configuration.class,
-        ServiceConfiguration.class,
-        Bootstrap.class
-})
-@EnableAutoConfiguration
-public class AppConfiguration {
+@EnableAspectJAutoProxy
+public class AopConfiguration {
+
+    @Bean
+    public LoggingAspect loggingAspect() {
+        return new LoggingAspect();
+    }
 }

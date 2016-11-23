@@ -29,44 +29,19 @@ import java.util.stream.Stream;
 
 @Configuration
 public class EndpointsConfiguration {
-    @Value("${endpoints.autoconfig.path}")
-    private String autoconfigEndpoint;
-    @Value("${endpoints.beans.path}")
-    private String beansEndpoint;
-    @Value("${endpoints.configprops.path}")
-    private String configPropsEndpoint;
-    @Value("${endpoints.env.path}")
-    private String envEndpoint;
-    @Value("${endpoints.mappings.path}")
-    private String mappingsEndpoint;
-    @Value("${endpoints.metrics.path}")
-    private String metricsEndpoint;
-    @Value("${endpoints.shutdown.path}")
-    private String shutdownEndpoint;
-
-    public EndpointsConfiguration() {
-    }
 
     @Bean
-    public List<String> actuatorEndpoints() {
-        return Arrays.asList(
-                autoconfigEndpoint,
-                beansEndpoint,
-                configPropsEndpoint,
-                envEndpoint,
-                mappingsEndpoint,
-                metricsEndpoint,
-                shutdownEndpoint
-        );
+    public List<String> actuatorEndpoints(@Value("${management.context-path}") String actuatorEndpoints) {
+        return Collections.singletonList(getWildcardMappings(actuatorEndpoints));
+    }
+
+    private String getWildcardMappings(String contexPath) {
+        return String.format("%s/**", contexPath);
     }
 
     @Bean
     public List<String> h2Endpoints(@Value("${spring.h2.console.path}") String h2Endpoint) {
         return Collections.singletonList(getWildcardMappings(h2Endpoint));
-    }
-
-    private String getWildcardMappings(String h2ConsoleContextPath) {
-        return String.format("%s/**", h2ConsoleContextPath);
     }
 
     @Bean

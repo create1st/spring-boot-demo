@@ -44,6 +44,9 @@ endpoints:
   shutdown:
     sensitive: false
     enabled: true
+  jolokia:
+    sensitive: true
+    enabled: true
 swagger:
   api:
     info:

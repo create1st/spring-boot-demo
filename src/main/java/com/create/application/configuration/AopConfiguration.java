@@ -20,10 +20,19 @@ import com.create.aop.LoggingAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.EnableLoadTimeWeaving;
+import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 
 @Configuration
 @EnableAspectJAutoProxy
+@EnableLoadTimeWeaving
 public class AopConfiguration {
+
+    @Bean
+    public InstrumentationLoadTimeWeaver loadTimeWeaver()  throws Throwable {
+        InstrumentationLoadTimeWeaver loadTimeWeaver = new InstrumentationLoadTimeWeaver();
+        return loadTimeWeaver;
+    }
 
     @Bean
     public LoggingAspect loggingAspect() {

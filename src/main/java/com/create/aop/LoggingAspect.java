@@ -17,25 +17,48 @@
 package com.create.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StopWatch;
 
 @Aspect
 public class LoggingAspect {
+    private static final Logger LOG_PERF = LoggerFactory.getLogger("PERF");
     private static final Logger LOG_ALL = LoggerFactory.getLogger("ALL");
     private static final Logger LOG_EXC = LoggerFactory.getLogger("EXC");
     private static final Logger LOG_SVC = LoggerFactory.getLogger("SVC");
     private static final Logger LOG_RST = LoggerFactory.getLogger("RST");
 
+    @Around("execution(* com.create.service.*.*(..))")
+    public Object logPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
+        final String watchId = getWatchId(joinPoint);
+        final StopWatch stopWatch = new StopWatch(watchId);
+        stopWatch.start(watchId);
+        try {
+            return joinPoint.proceed();
+        } finally {
+            stopWatch.stop();
+            LOG_PERF.trace(stopWatch.shortSummary());
+        }
+    }
+
+    private String getWatchId(ProceedingJoinPoint joinPoint) {
+        final String className = getClassName(joinPoint.getTarget());
+        final String methodName = getMethodName(joinPoint.getSignature());
+        return String.format("%s - %s", className, methodName);
+    }
+
     @AfterThrowing(pointcut = "execution(* com.create..*.*(..)) " +
             "&& !execution(* com.create.aop.*.*(..)) " +
             "&& !execution(* com.create.application.configuration.*.*(..))",
-            throwing="exception")
-    public void logException(Exception exception){
+            throwing = "exception")
+    public void logException(Exception exception) {
         LOG_EXC.error("Exception", exception);
     }
 
@@ -46,7 +69,7 @@ public class LoggingAspect {
         debug(joinPoint, LOG_ALL);
     }
 
-    @Before("execution(* com.create.service.*.*(..)) ")
+    @Before("execution(* com.create.service.*.*(..))")
     public void logService(JoinPoint joinPoint) {
         debug(joinPoint, LOG_SVC);
     }

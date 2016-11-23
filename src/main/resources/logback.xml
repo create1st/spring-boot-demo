@@ -6,6 +6,7 @@
         </encoder>
     </appender>
     <logger name="ALL" level="OFF"/>
+    <logger name="PERF" level="TRACE"/>
     <logger name="EXC" level="ERROR"/>
     <logger name="SVC" level="DEBUG"/>
     <logger name="RST" level="DEBUG"/>

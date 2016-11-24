@@ -21,12 +21,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
+import org.springframework.context.annotation.EnableLoadTimeWeaving.AspectJWeaving;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@EnableLoadTimeWeaving
+@EnableLoadTimeWeaving(aspectjWeaving = AspectJWeaving.ENABLED)
+
 public class AopConfiguration {
 
     @Bean

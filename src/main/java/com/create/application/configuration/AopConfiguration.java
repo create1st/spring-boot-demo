@@ -22,16 +22,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
+import org.springframework.instrument.classloading.LoadTimeWeaver;
 
 @Configuration
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableLoadTimeWeaving
 public class AopConfiguration {
 
     @Bean
-    public InstrumentationLoadTimeWeaver loadTimeWeaver()  throws Throwable {
-        InstrumentationLoadTimeWeaver loadTimeWeaver = new InstrumentationLoadTimeWeaver();
-        return loadTimeWeaver;
+    public LoadTimeWeaver loadTimeWeaver()  throws Throwable {
+        return new InstrumentationLoadTimeWeaver();
     }
 
     @Bean

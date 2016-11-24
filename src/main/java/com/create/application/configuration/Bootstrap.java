@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class Bootstrap {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @PostConstruct
     public void bootstrapDatabase() {
         bootstrapRoleRepository();
         bootstrapUserRepository();

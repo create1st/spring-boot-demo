@@ -27,9 +27,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
+import java.util.Arrays;
+
 @Aspect
 public class LoggingAspect {
     private static final Logger LOG_PERF = LoggerFactory.getLogger("PERF");
+    private static final Logger LOG_QRY = LoggerFactory.getLogger("QRY");
     private static final Logger LOG_ALL = LoggerFactory.getLogger("ALL");
     private static final Logger LOG_EXC = LoggerFactory.getLogger("EXC");
     private static final Logger LOG_SVC = LoggerFactory.getLogger("SVC");
@@ -37,14 +40,19 @@ public class LoggingAspect {
 
     @Around("execution(* com.create.service.*.*(..))")
     public Object logPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
-        final String watchId = getWatchId(joinPoint);
+        return logPerformance(joinPoint, LOG_PERF, getWatchId(joinPoint));
+    }
+
+    private Object logPerformance(ProceedingJoinPoint joinPoint,
+                                  Logger logger,
+                                  String watchId) throws Throwable {
         final StopWatch stopWatch = new StopWatch(watchId);
         stopWatch.start(watchId);
         try {
             return joinPoint.proceed();
         } finally {
             stopWatch.stop();
-            LOG_PERF.trace(stopWatch.shortSummary());
+            logger.trace(stopWatch.shortSummary());
         }
     }
 
@@ -52,6 +60,17 @@ public class LoggingAspect {
         final String className = getClassName(joinPoint.getTarget());
         final String methodName = getMethodName(joinPoint.getSignature());
         return String.format("%s - %s", className, methodName);
+    }
+
+    @Around("execution(* com.create.repository..*(..))")
+    public Object logQueryPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
+        return logPerformance(joinPoint, LOG_QRY, getQueryWatchId(joinPoint));
+    }
+
+    private String getQueryWatchId(ProceedingJoinPoint joinPoint) {
+        final String methodName = getMethodName(joinPoint.getSignature());
+        final String arguments = Arrays.toString(joinPoint.getArgs());
+        return String.format("%s%s", methodName, arguments);
     }
 
     @AfterThrowing(pointcut = "execution(* com.create..*.*(..)) " +

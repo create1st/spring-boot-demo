@@ -5,8 +5,9 @@
             <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
         </encoder>
     </appender>
-    <logger name="ALL" level="OFF"/>
     <logger name="PERF" level="TRACE"/>
+    <logger name="QRY" level="TRACE"/>
+    <logger name="ALL" level="OFF"/>
     <logger name="EXC" level="ERROR"/>
     <logger name="SVC" level="DEBUG"/>
     <logger name="RST" level="DEBUG"/>

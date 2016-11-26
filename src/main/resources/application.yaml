@@ -31,6 +31,12 @@ spring:
       sharedCache.mode: NONE
     hibernate:
       ddl-auto: create-drop
+    eclipselink:
+      weaving: false
+      ddl-generation: drop-and-create-tables
+      logging:
+        parameters: true
+        logger: com.create.logging.Slf4jSessionLogger
 security:
   oauth2:
     client:

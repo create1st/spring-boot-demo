@@ -16,13 +16,17 @@
 
 package com.create.model;
 
+import com.create.security.Permission;
+import com.create.security.Role;
+
 import java.util.Set;
 
 public final class UserBuilder {
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     private Set<Role> roles;
+    private Set<Permission> permissions;
 
     private UserBuilder() {
     }
@@ -31,7 +35,7 @@ public final class UserBuilder {
         return new UserBuilder();
     }
 
-    public UserBuilder withId(int id) {
+    public UserBuilder withId(Integer id) {
         this.id = id;
         return this;
     }
@@ -51,12 +55,18 @@ public final class UserBuilder {
         return this;
     }
 
+    public UserBuilder withPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+        return this;
+    }
+
     public User build() {
         User user = new User();
         user.setId(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setRoles(roles);
+        user.setPermissions(permissions);
         return user;
     }
 }

@@ -16,13 +16,11 @@
 
 package com.create.application.configuration;
 
-import com.create.model.Role;
-import com.create.model.RoleBuilder;
 import com.create.model.User;
 import com.create.model.UserBuilder;
-import com.create.repository.RoleRepository;
 import com.create.repository.UserRepository;
-import com.create.security.Authority;
+import com.create.security.Permission;
+import com.create.security.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,9 +32,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.create.security.Authority.ROLE_ADMIN_USER;
-import static com.create.security.Authority.ROLE_TICKET_SERVICE_USER;
-
 @Configuration
 public class Bootstrap {
     public static final String USER_PASSWORD = "secret";
@@ -46,29 +41,11 @@ public class Bootstrap {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void bootstrapDatabase() {
-        bootstrapRoleRepository();
         bootstrapUserRepository();
-    }
-
-    private void bootstrapRoleRepository() {
-        Stream.of(
-                createRole(ROLE_ADMIN_USER),
-                createRole(ROLE_TICKET_SERVICE_USER)
-        )
-                .forEach(roleRepository::save);
-    }
-
-    private Role createRole(Authority authority) {
-        return RoleBuilder
-                .aRole()
-                .withName(authority.name())
-                .build();
     }
 
     private void bootstrapUserRepository() {
@@ -81,34 +58,27 @@ public class Bootstrap {
 
     private User createAdminUser() {
         String password = passwordEncoder.encode(USER_PASSWORD);
-        Role adminRole = getAdminRole();
-        Set<Role> roles = Collections.singleton(adminRole);
+        Set<Role> roles = Collections.singleton(Role.ADMIN);
+        Set<Permission> permissions = Collections.singleton(Permission.BATCH);
         return UserBuilder
                 .anUser()
                 .withUsername(ADMIN_USER)
                 .withPassword(password)
                 .withRoles(roles)
+                .withPermissions(permissions)
                 .build();
-    }
-
-    private Role getAdminRole() {
-        return roleRepository.findByName(ROLE_ADMIN_USER.name());
     }
 
     private User createTicketServiceUser() {
         String password = passwordEncoder.encode(USER_PASSWORD);
-        Role adminRole = getAdminRole();
-        Role ticketServiceUserRole = getTicketServiceUserRole();
-        Set<Role> roles = new HashSet<>(Arrays.asList(adminRole, ticketServiceUserRole));
+        Set<Role> roles = new HashSet<>(Arrays.asList(Role.ADMIN, Role.WRITER));
+        Set<Permission> permissions = Permission.getAll();
         return UserBuilder
                 .anUser()
                 .withUsername(TICKET_SERVICE_USER)
                 .withPassword(password)
+                .withPermissions(permissions)
                 .withRoles(roles)
                 .build();
-    }
-
-    private Role getTicketServiceUserRole() {
-        return roleRepository.findByName(ROLE_TICKET_SERVICE_USER.name());
     }
 }

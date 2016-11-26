@@ -16,42 +16,54 @@
 
 package com.create.model;
 
+import com.create.security.Permission;
+import com.create.security.Role;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
-import static javax.persistence.FetchType.EAGER;
-
 @Entity
 public class User {
     @Id
-    @GeneratedValue
-    private int id;
+    @SequenceGenerator(name = "USER_SEQUENCE")
+    @GeneratedValue(generator = "USER_SEQUENCE", strategy = GenerationType.SEQUENCE)
+    private Integer id;
     @Size(max = 20)
     @NotNull
     private String username;
     @Size(max = 80)
     @NotNull
     private String password;
-    @ManyToMany(fetch = EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "role"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_permission", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "permission")
+    @Enumerated(EnumType.STRING)
+    private Set<Permission> permissions;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -79,6 +91,14 @@ public class User {
         this.roles = roles;
     }
 
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +115,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", roles=" + roles +
+                ", permissions=" + permissions +
                 '}';
     }
 }

@@ -16,7 +16,6 @@
 
 package com.create.security;
 
-import com.create.model.Role;
 import com.create.model.User;
 import com.create.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RepositoryUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -54,10 +54,24 @@ public class RepositoryUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
-       return user.getRoles()
-                .stream()
-                .map(Role::getName)
-                .map(SimpleGrantedAuthority::new)
+       return Stream.concat(
+               getGrantedAuthoritiesForRoles(user),
+               getGrantedAuthoritiesForPermissions(user)
+       )
                 .collect(Collectors.toList());
+    }
+
+    private Stream<SimpleGrantedAuthority> getGrantedAuthoritiesForRoles(User user) {
+        return user.getRoles()
+                 .stream()
+                 .map(Role::toPermissionName)
+                 .map(SimpleGrantedAuthority::new);
+    }
+
+    private Stream<SimpleGrantedAuthority> getGrantedAuthoritiesForPermissions(User user) {
+        return user.getPermissions()
+                .stream()
+                .map(Permission::name)
+                .map(SimpleGrantedAuthority::new);
     }
 }

@@ -40,12 +40,12 @@ import static com.create.controller.ResponseMessage.FORBIDDEN_RESPONSE;
 import static com.create.controller.ResponseMessage.NOT_FOUND_RESPONSE;
 import static com.create.controller.ResponseMessage.SUCCESS_RESPONSE;
 import static com.create.controller.ResponseMessage.UNAUTHORIZED_RESPONSE;
-import static com.create.security.AccessControl.HAS_TICKET_SERVICE_USER_ROLE;
+import static com.create.security.AccessControl.HAS_AUTHORITY_BATCH_WRITER;
+import static com.create.security.AccessControl.HAS_ROLE_WRITER;
 
 @RestController
 @RequestMapping("${validator.context-path:}")
 @Api(description = "Endpoint for ticket validation")
-@PreAuthorize(HAS_TICKET_SERVICE_USER_ROLE)
 public class TicketValidatorController {
 
     @ApiOperation(value = "Validate ticket", notes = "Validate ticket using this REST API")
@@ -58,6 +58,7 @@ public class TicketValidatorController {
             @ApiResponse(code = 404, message = NOT_FOUND_RESPONSE),
             @ApiResponse(code = 500, message = FAILURE_RESPONSE)})
     @ResponseBody
+    @PreAuthorize(HAS_ROLE_WRITER)
     public void validateTicket(@Valid @RequestBody Ticket ticket,
                                @AuthenticationPrincipal User user) {
     }
@@ -72,6 +73,7 @@ public class TicketValidatorController {
             @ApiResponse(code = 404, message = NOT_FOUND_RESPONSE),
             @ApiResponse(code = 500, message = FAILURE_RESPONSE)})
     @ResponseBody
+    @PreAuthorize(HAS_AUTHORITY_BATCH_WRITER)
     public void validateTickets(@Valid @RequestBody List<Ticket> tickets,
                                 @AuthenticationPrincipal User user) {
     }

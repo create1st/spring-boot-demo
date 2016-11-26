@@ -17,5 +17,7 @@
 package com.create.security;
 
 public interface AccessControl {
-    String HAS_TICKET_SERVICE_USER_ROLE = "hasRole('TICKET_SERVICE_USER')";
+    String HAS_ROLE_WRITER = "hasRole('WRITER')";
+    String HAS_AUTHORITY_BATCH = "hasAuthority('BATCH')";
+    String HAS_AUTHORITY_BATCH_WRITER = HAS_ROLE_WRITER + " && " + HAS_AUTHORITY_BATCH;
 }

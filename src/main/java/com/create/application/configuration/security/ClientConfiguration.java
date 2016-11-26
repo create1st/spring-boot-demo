@@ -28,8 +28,8 @@ import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import java.util.Collections;
 import java.util.List;
 
-import static com.create.security.Authority.ROLE_ADMIN_USER;
-import static com.create.security.Authority.ROLE_TICKET_SERVICE_USER;
+import static com.create.security.Role.ADMIN;
+import static com.create.security.Role.WRITER;
 
 @Configuration
 @EnableAuthorizationServer
@@ -47,8 +47,8 @@ public class ClientConfiguration {
 
     private List<GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(
-                ROLE_ADMIN_USER.name(),
-                ROLE_TICKET_SERVICE_USER.name()
+                ADMIN.name(),
+                WRITER.name()
         );
     }
 }

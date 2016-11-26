@@ -14,11 +14,18 @@
  *
  */
 
-package com.create.repository;
+package com.create.security;
 
-import com.create.model.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public interface RoleRepository extends JpaRepository<Role, String> {
-    Role findByName(String role);
+public enum Permission {
+    BATCH;
+
+    public static Set<Permission> getAll() {
+        return Arrays
+                .stream(values())
+                .collect(Collectors.toSet());
+    }
 }

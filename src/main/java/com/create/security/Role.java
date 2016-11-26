@@ -14,33 +14,15 @@
  *
  */
 
-package com.create.model;
+package com.create.security;
 
-public final class RoleBuilder {
-    private int id;
-    private String name;
-
-    private RoleBuilder() {
-    }
-
-    public static RoleBuilder aRole() {
-        return new RoleBuilder();
-    }
-
-    public RoleBuilder withId(int id) {
-        this.id = id;
-        return this;
-    }
-
-    public RoleBuilder withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Role build() {
-        Role role = new Role();
-        role.setId(id);
-        role.setName(name);
-        return role;
+public enum Role {
+    ADMIN,
+    READER,
+    WRITER
+    ;
+    
+    public String toPermissionName() {
+        return "ROLE_" + this.name();
     }
 }
